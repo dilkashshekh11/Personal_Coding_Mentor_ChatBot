@@ -1,0 +1,6 @@
+.env
+.secret_key
+dilkash.db
+uploads/
+__pycache__/
+*.pyc

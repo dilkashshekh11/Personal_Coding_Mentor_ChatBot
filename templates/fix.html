@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Fix My Code - Dilkash AI{% endblock %}
+{% block content %}
+<h1>Fix My Code</h1>
+<p class="sub">Paste your Python code or upload a file. You get what is wrong, how to fix it and the corrected code.</p>
+
+<div class="two">
+  <div class="card">
+    <div class="row">
+      <label for="code">Your code</label>
+      <label class="btn light small">Upload .py file
+        <input type="file" id="file" accept=".py,.txt" hidden>
+      </label>
+    </div>
+    <div class="muted" id="fileName"></div>
+    <textarea id="code" class="code-input" spellcheck="false" placeholder="Paste your Python code here"></textarea>
+    <div class="actions">
+      <button type="button" class="btn" id="checkBtn">Check my code</button>
+      <button type="button" class="btn light" id="clearBtn">Clear</button>
+      <span class="status" id="status"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="empty" id="empty">Your answer will show here.</div>
+    <div id="answer" hidden>
+      <h3><span class="tag" style="--c:#dc2626">What is wrong</span></h3>
+      <div class="text" id="outError"></div>
+      <h3><span class="tag" style="--c:#2563eb">How to fix it</span></h3>
+      <div class="text" id="outFix"></div>
+      <div class="row">
+        <h3><span class="tag" style="--c:#16a34a">Corrected code</span></h3>
+        <span>
+          <button type="button" class="btn light small" id="copyBtn">Copy</button>
+          <button type="button" class="btn light small" id="saveBtn">Download</button>
+        </span>
+      </div>
+      <pre class="out-code"><code id="outCode"></code></pre>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='fix.js') }}"></script>{% endblock %}

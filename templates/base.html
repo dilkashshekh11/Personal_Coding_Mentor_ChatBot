@@ -1,0 +1,49 @@
+{% from "_macros.html" import avatar %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Dilkash AI{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">Dilkash AI</div>
+    <nav>
+      <a href="{{ url_for('dashboard') }}" class="{{ 'on' if active == 'dashboard' }}">Dashboard</a>
+      <a href="{{ url_for('assistant') }}" class="{{ 'on' if active == 'assistant' }}">Assistant</a>
+      <a href="{{ url_for('fix') }}" class="{{ 'on' if active == 'fix' }}">Fix My Code</a>
+      <a href="{{ url_for('history') }}" class="{{ 'on' if active == 'history' }}">History</a>
+      <a href="{{ url_for('profile') }}" class="{{ 'on' if active == 'profile' }}">Profile</a>
+    </nav>
+    <a class="me" href="{{ url_for('profile') }}">
+      {{ avatar(me) }}
+      <span><b>{{ me.display_name }}</b><small>@{{ me.username }}</small></span>
+    </a>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button type="button" class="btn light small menu-btn" id="menuBtn">Menu</button>
+      <span class="hello">Hello, {{ me.display_name }}</span>
+      <form method="post" action="{{ url_for('logout') }}" class="logout">
+        <button type="submit" class="btn light small">Log out</button>
+      </form>
+    </header>
+    {% if not has_key %}
+    <div class="notice">No API key yet. Open the <code>.env</code> file, paste your Gemini key and restart the app.</div>
+    {% endif %}
+    <main class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, text in messages %}<div class="flash {{ category }}">{{ text }}</div>{% endfor %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Assistant - Dilkash AI{% endblock %}
+{% block content %}
+<div class="assistant" id="assistant"
+     data-chat-id="{{ chat_id }}" data-mode="{{ mode }}" data-lang="{{ language }}">
+  <div class="card chat">
+    <div class="toolbar">
+      <div class="chips">
+        {% for key, m in modes.items() %}
+        <button type="button" class="chip {{ 'on' if key == mode }}" style="--c: {{ m.color }}"
+                data-mode="{{ key }}" data-hint="{{ m.hint }}">{{ m.label }}</button>
+        {% endfor %}
+      </div>
+      <div class="tool-right">
+        <select id="lang" aria-label="Reply language">
+          {% for l in languages %}<option value="{{ l }}">{{ l }}</option>{% endfor %}
+        </select>
+        <a class="btn light small" href="{{ url_for('assistant') }}">New chat</a>
+      </div>
+    </div>
+
+    <div class="messages" id="messages">
+      {% for m in messages %}
+      <div class="msg {{ m.role }}">
+        {% if m.role == 'user' %}<div class="bubble">{{ m.content }}</div>
+        {% else %}<div class="bubble" data-md>{{ m.content }}</div>{% endif %}
+      </div>
+      {% endfor %}
+      {% if not messages %}
+      <div class="empty" id="emptyChat">Choose a tag above and type your message below.</div>
+      {% endif %}
+    </div>
+
+    <form class="composer" id="chatForm">
+      <textarea id="input" rows="2" aria-label="Your message"></textarea>
+      <button type="submit" class="btn" id="sendBtn">Send</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='chat.js') }}"></script>{% endblock %}

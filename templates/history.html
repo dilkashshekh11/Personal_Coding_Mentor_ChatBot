@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% from "_macros.html" import activity %}
+{% block title %}History - Dilkash AI{% endblock %}
+{% block content %}
+<h1>History</h1>
+<p class="sub">Your chats and code checks, newest first.</p>
+<div class="card flush">{{ activity(items, True) }}</div>
+{% endblock %}

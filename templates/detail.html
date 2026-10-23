@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Code check - Dilkash AI{% endblock %}
+{% block content %}
+<div class="row">
+  <div>
+    <h1>{{ row['filename'] or 'Pasted code' }}</h1>
+    <p class="sub">{{ date }}</p>
+  </div>
+  <form method="post" action="{{ url_for('delete_check', check_id=row['id']) }}"
+        onsubmit="return confirm('Delete this check?')">
+    <button class="btn light" type="submit">Delete</button>
+  </form>
+</div>
+
+<div class="two">
+  <div class="card">
+    <h3><span class="tag" style="--c:#111827">Your code</span></h3>
+    <pre class="out-code"><code>{{ row['code'] }}</code></pre>
+  </div>
+  <div class="card">
+    <h3><span class="tag" style="--c:#dc2626">What is wrong</span></h3>
+    <div class="text">{{ parts.error }}</div>
+    <h3><span class="tag" style="--c:#2563eb">How to fix it</span></h3>
+    <div class="text">{{ parts.fix }}</div>
+    <div class="row">
+      <h3><span class="tag" style="--c:#16a34a">Corrected code</span></h3>
+      <button type="button" class="btn light small" data-copy="#fixedCode">Copy</button>
+    </div>
+    <pre class="out-code"><code id="fixedCode">{{ parts.code }}</code></pre>
+  </div>
+</div>
+<p><a href="{{ url_for('history') }}">Back to history</a></p>
+{% endblock %}

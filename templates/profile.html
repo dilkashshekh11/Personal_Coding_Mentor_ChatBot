@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% from "_macros.html" import avatar %}
+{% block title %}Profile - Dilkash AI{% endblock %}
+{% block content %}
+<h1>Profile</h1>
+<p class="sub">Your photo, name and password.</p>
+
+<div class="two">
+  <div class="card">
+    <div class="profile-head">
+      {{ avatar(me, "lg") }}
+      <div>
+        <div class="big-name">{{ me.display_name }}</div>
+        <div class="muted">@{{ me.username }}, member since {{ joined }}</div>
+        <div class="tag-row small-gap">
+          <span class="tag" style="--c:#2563eb">{{ stats.checks }} code checks</span>
+          <span class="tag" style="--c:#16a34a">{{ stats.chats }} chats</span>
+          <span class="tag" style="--c:#dc2626">{{ stats.errors }} mistakes found</span>
+        </div>
+      </div>
+    </div>
+
+    <form method="post" action="{{ url_for('profile_update') }}" enctype="multipart/form-data">
+      <div class="field">
+        <label for="display_name">Your name</label>
+        <input class="input" type="text" id="display_name" name="display_name" maxlength="40"
+               value="{{ me.display_name }}" required>
+      </div>
+      <div class="field">
+        <label for="photo">Photo (PNG, JPG, GIF or WebP, up to 2 MB)</label>
+        <input class="input" type="file" id="photo" name="photo" accept="image/png,image/jpeg,image/gif,image/webp">
+      </div>
+      <button class="btn" type="submit">Save profile</button>
+    </form>
+    {% if me.photo %}
+    <form method="post" action="{{ url_for('profile_photo_remove') }}" class="gap-top">
+      <button class="btn light small" type="submit">Remove photo</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h3>Change password</h3>
+    <form method="post" action="{{ url_for('profile_password') }}">
+      <div class="field">
+        <label for="current">Current password</label>
+        <input class="input" type="password" id="current" name="current" required autocomplete="current-password">
+      </div>
+      <div class="field">
+        <label for="new">New password</label>
+        <input class="input" type="password" id="new" name="new" required autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label for="confirm">Confirm new password</label>
+        <input class="input" type="password" id="confirm" name="confirm" required autocomplete="new-password">
+      </div>
+      <button class="btn" type="submit">Change password</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

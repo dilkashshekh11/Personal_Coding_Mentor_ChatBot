@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ 'Create account' if mode == 'register' else 'Log in' }} - Dilkash AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="auth">
+  <section class="auth-side">
+    <div class="auth-brand">Dilkash AI</div>
+    <h1>Learn to code and study faster.</h1>
+    <p>Fix your Python code, get explanations, practice with quizzes and make study notes in English, Nepali or Hindi.</p>
+    <div class="tag-row">
+      <span class="tag" style="--c:#dc2626">Fix code</span>
+      <span class="tag" style="--c:#2563eb">Chat</span>
+      <span class="tag" style="--c:#16a34a">Generate code</span>
+      <span class="tag" style="--c:#000000">Explain code</span>
+      <span class="tag" style="--c:#7c3aed">Tutor</span>
+      <span class="tag" style="--c:#0891b2">Quiz</span>
+      <span class="tag" style="--c:#d97706">Summaries</span>
+    </div>
+  </section>
+
+  <section class="auth-form">
+    <div class="auth-box">
+      {% if mode == 'register' %}
+      <h2>Create your account</h2>
+      <p class="sub">Choose a username and password to get started.</p>
+      {% else %}
+      <h2>Log in</h2>
+      <p class="sub">Welcome back. Enter your username and password.</p>
+      {% endif %}
+
+      {% if error %}<div class="flash error">{{ error }}</div>{% endif %}
+
+      <form method="post" action="{{ url_for('register') if mode == 'register' else url_for('login') }}">
+        {% if mode == 'register' %}
+        <div class="field">
+          <label for="display_name">Your name</label>
+          <input class="input" type="text" id="display_name" name="display_name" maxlength="40"
+                 value="{{ form.display_name or '' }}" autocomplete="name">
+        </div>
+        {% endif %}
+        <div class="field">
+          <label for="username">Username</label>
+          <input class="input" type="text" id="username" name="username" required maxlength="20"
+                 value="{{ form.username or '' }}" autocomplete="username" autofocus>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input class="input" type="password" id="password" name="password" required
+                 autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}">
+        </div>
+        {% if mode == 'register' %}
+        <div class="field">
+          <label for="confirm">Confirm password</label>
+          <input class="input" type="password" id="confirm" name="confirm" required autocomplete="new-password">
+        </div>
+        {% endif %}
+        <button class="btn block-btn" type="submit">{{ 'Create account' if mode == 'register' else 'Log in' }}</button>
+      </form>
+
+      <p class="switch">
+        {% if mode == 'register' %}Already have an account? <a href="{{ url_for('login') }}">Log in</a>
+        {% else %}New here? <a href="{{ url_for('landing') }}">Create an account</a>{% endif %}
+      </p>
+    </div>
+  </section>
+</div>
+</body>
+</html>

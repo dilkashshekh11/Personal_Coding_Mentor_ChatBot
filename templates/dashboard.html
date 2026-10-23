@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "_macros.html" import activity %}
+{% block title %}Dashboard - Dilkash AI{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<p class="sub">Your activity at a glance.</p>
+
+<div class="stats">
+  {% for t in tiles %}
+  <div class="card stat" style="border-left-color: {{ t.color }}">
+    <div class="num">{{ t.value }}</div>
+    <div class="lbl">{{ t.label }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<h2>Start with</h2>
+<div class="tag-row">
+  {% for key, m in modes.items() %}
+  <a class="chip" style="--c: {{ m.color }}" href="{{ url_for('assistant', mode=key) }}">{{ m.label }}</a>
+  {% endfor %}
+  <a class="chip" style="--c: #dc2626" href="{{ url_for('fix') }}">Fix My Code</a>
+</div>
+
+<h2>Recent activity</h2>
+<div class="card flush">{{ activity(items) }}</div>
+{% endblock %}
